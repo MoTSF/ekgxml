@@ -1,0 +1,292 @@
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    },
+    "DocumentProperty": {
+      "type": "nested",
+      "properties": {
+        "FileName": {
+          "type": "keyword"
+        },
+        "XMLPath": {
+          "type": "keyword"
+        },
+        "CSVPath": {
+          "type": "keyword"
+        }
+      }
+    },
+    "MuseInfo": {
+      "type": "nested",
+      "properties": {
+        "MuseVersion": {
+          "type": "keyword"
+        }
+      }
+    },
+    "PatientDemographics": {
+      "type": "nested",
+      "properties" : {
+        "PatientID": {
+          "type": "keyword"
+        },
+        "PatientAge": {
+          "type": "integer"
+        },
+        "DateofBirth": {
+          "type": "keyword"
+        },
+        "Gender": {
+          "type": "keyword"
+        },
+        "Race": {
+          "type": "keyword"
+        }
+      }
+    },
+    "TestDemographics": {
+      "type": "nested",
+      "properties" : {
+        "AcquisitionDevice": {
+          "type": "keyword"
+        },
+        "Status": {
+          "type": "keyword"
+        },
+        "EditListStatus": {
+          "type": "keyword"
+        },
+        "Location": {
+          "type": "keyword"
+        },
+        "LocationName": {
+          "type": "keyword"
+        },
+        "AcquisitionDate": {
+          "type": "date",
+          "format": "MM-dd-yyyy"
+        },
+        "AnalysisSoftwareVersion": {
+          "type": "keyword"
+        },
+        "EditTime": {
+          "type": "date",
+          "format": "hour_minute_second"
+        },
+        "EditorID": {
+          "type": "keyword"
+        }
+      }
+    },
+    "RestingECGMeasurements" : {
+      "type": "nested",
+      "properties" : {
+        "VentricularRate": {
+          "type": "float"
+        },
+        "AtrialRate": {
+          "type": "float"
+        },
+        "PRInterval": {
+          "type": "integer"
+        },
+        "QRSDuration": {
+          "type": "integer"
+        },
+        "QTInterval": {
+          "type": "integer"
+        },
+        "QTCorrected": {
+          "type": "integer"
+        },
+        "PAxis": {
+          "type": "integer"
+        },
+        "RAxis": {
+          "type": "integer"
+        },
+        "TAxis": {
+          "type": "integer"
+        },
+        "QRSCount": {
+          "type": "integer"
+        },
+        "QOnset": {
+          "type": "integer"
+        },
+        "QOffset": {
+          "type": "integer"
+        },
+        "POnset": {
+          "type": "integer"
+        },
+        "POffset": {
+          "type": "integer"
+        },
+        "TOffset": {
+          "type": "integer"
+        },
+        "ECGSampleBase": {
+          "type": "integer"
+        },
+        "ECGSampleExponent": {
+          "type": "integer"
+        },
+        "QTcFrederica": {
+          "type": "integer"
+        }
+      }
+    },
+    "OriginalRestingECGMeasurements" : {
+      "type": "nested",
+      "properties" : {
+        "VentricularRate": {
+          "type": "float"
+        },
+        "AtrialRate": {
+          "type": "float"
+        },
+        "PRInterval": {
+          "type": "integer"
+        },
+        "QRSDuration": {
+          "type": "integer"
+        },
+        "QTInterval": {
+          "type": "integer"
+        },
+        "QTCorrected": {
+          "type": "integer"
+        },
+        "PAxis": {
+          "type": "integer"
+        },
+        "RAxis": {
+          "type": "integer"
+        },
+        "TAxis": {
+          "type": "integer"
+        },
+        "QRSCount": {
+          "type": "integer"
+        },
+        "QOnset": {
+          "type": "integer"
+        },
+        "QOffset": {
+          "type": "integer"
+        },
+        "POnset": {
+          "type": "integer"
+        },
+        "POffset": {
+          "type": "integer"
+        },
+        "TOffset": {
+          "type": "integer"
+        },
+        "ECGSampleBase": {
+          "type": "integer"
+        },
+        "ECGSampleExponent": {
+          "type": "integer"
+        }
+      }
+    },
+    "Diagnosis": {
+      "type": "nested",
+      "properties" : {
+        "Modality": {
+          "type": "keyword"
+        },
+        "DiagnosisStatement" : {
+          "type": "nested",
+          "properties" : {
+            "StmtText": {
+              "type": "text"
+            }
+          }
+        }
+      }
+    },
+    "OriginalDiagnosis": {
+      "type": "nested",
+      "properties" : {
+        "Modality": {
+          "type": "keyword"
+        },
+        "DiagnosisStatement" : {
+          "type": "nested",
+          "properties" : {
+            "StmtText": {
+              "type": "text"
+            }
+          }
+        }
+      }
+    },
+    "IntervalMeasurements": {
+      "type": "nested",
+      "properties" : {
+        "IntervalMeasurementTimeResolution": {
+          "type": "integer"
+        },
+        "IntervalMeasurementAmplitudeResolution": {
+          "type": "integer"
+        },
+        "IntervalMeasurementFilter": {
+          "type": "integer"
+        },
+        "MeasuredInterval" : {
+          "type": "nested",
+          "properties" : {
+            "IntervalMeasurementPOnset": {
+              "type": "integer"
+            },
+            "IntervalMeasurementPOffset": {
+              "type": "integer"
+            },
+            "IntervalMeasurementQOnset": {
+              "type": "integer"
+            },
+            "IntervalMeasurementQOffset": {
+              "type": "integer"
+            },
+            "IntervalMeasurementTOffset": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "QRSTimesTypes" : {
+      "type": "nested",
+      "properties" : {
+        "GlobalRR": {
+          "type": "integer"
+        },
+        "QTRGGR": {
+          "type": "integer"
+        }
+      }
+    },
+    "PharmaData": {
+      "type": "nested",
+      "properties" : {
+        "PharmaRRinterval": {
+          "type": "integer"
+        },
+        "PharmaUniqueECGID": {
+          "type": "keyword"
+        },
+        "PharmaPPinterval": {
+          "type": "integer"
+        },
+        "PharmaCartID": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

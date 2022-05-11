@@ -1,0 +1,46 @@
+# Spring Profile
+spring:
+  profiles:
+    active: prod
+
+ekgxml:
+  collector:        # Collector
+    path: /sample/2022
+    logPath: ekgLog
+    retry: false
+  csv:              # CSV
+    path: /sample/2022
+    outputPath: /sample/2022_out
+    converter: standalone/csv
+  uploader:
+    host: https://localhost
+    svmUUID: svmUUID
+    bucketUUID: bucketUUID
+    bucketName: test
+    userName: test
+    password: test
+  es:               # Elasticsearch
+    bulkSize: 100
+    host: 127.0.0.1
+    port: 9200
+    userName: elastic
+    password: elastic
+    indexName: test
+    settingsLocation: standalone/settings.json
+    mappingsLocation: standalone/mappings.json
+  datasource:
+    local:          # Data Source (local)
+      url: jdbc:sqlite:ekgxml.db
+      driver-class-name: org.sqlite.JDBC
+    external:       # Datasource (remote)
+      url: jdbc:sqlserver://192.168.0.22:1433;databaseName=testdb;encrypt=true;trustServerCertificate=true
+      driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+      username: sa
+      password: 1111
+      initialSize: 0
+      maxTotal: 10
+      maxIdle: 10
+      minIdle: 0
+
+logging:            # Logback
+  config: standalone/logback-spring-standalone.xml

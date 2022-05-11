@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProperty name="ekgxml.collector.logPath" source="ekgxml.collector.logPath" />
+    <property name="logHome" value="${ekgxml.collector.logPath}" />
+
+    <appender name="stdOut" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+
+    <appender name="fileOut" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logHome}/%d{yyyyMMdd}/operation.%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <root level="error">
+        <appender-ref ref="stdOut"/>
+    </root>
+
+    <springProfile name="prod">
+        <logger name="com.lemonbada" additivity="false">
+            <level value="info"/>
+            <appender-ref ref="stdOut"/>
+            <appender-ref ref="fileOut"/>
+        </logger>
+
+    </springProfile>
+
+</configuration>
