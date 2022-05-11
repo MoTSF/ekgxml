@@ -37,8 +37,11 @@ public class EKGXMLService {
     @Autowired
     private XMLParser xmlParser;
 
+    //@Autowired
+    //private NetAppService netAppService;
+
     @Autowired
-    private NetAppService netAppService;
+    private AWSS3Service awss3Service;
 
     @Autowired
     private LocalDataBaseService localDataBaseService;
@@ -72,12 +75,12 @@ public class EKGXMLService {
             externalDataBaseService.ack();
             displayMessage("[정상] 정상정으로 연결되었습니다.");
 
-            displayMessage("ES 연결중입니다.");
+            /*displayMessage("ES 연결중입니다.");
             esService.ack();
-            displayMessage("[정상] 정상적으로 연결되었습니다.");
+            displayMessage("[정상] 정상적으로 연결되었습니다.");*/
 
-            displayMessage("NetApp 연결중입니다.");
-            netAppService.ack();
+            displayMessage("ONTAP S3 연결중입니다.");
+            awss3Service.ack();
             displayMessage("[정상] 정상적으로 연결되었습니다.");
 
         } catch (Exception e) {
@@ -283,8 +286,8 @@ public class EKGXMLService {
 
     public void createBucket() {
         try {
-            String uuid =  netAppService.createBucket();
-            displayMessage(MessageFormat.format("AWS S3 Bucket {0}({1})를 생성하였습니다.", ekgxmlConfiguration.getUploader().getBucketName(), uuid));
+            String bucketName =  awss3Service.createBucket();
+            displayMessage(MessageFormat.format("ONTAP S3 Bucket {0}를 생성하였습니다.", ekgxmlConfiguration.getCsv().getAwss3().getBucketName()));
         } catch (Exception e) {
             displayMessage(e.getMessage());
         }
@@ -292,8 +295,8 @@ public class EKGXMLService {
 
     public void deleteBucket() {
         try {
-            netAppService.deleteBucket();
-            displayMessage(MessageFormat.format("AWS S3 Bucket({0}를 삭제하였습니다.", ekgxmlConfiguration.getUploader().getBucketName()));
+            awss3Service.deleteBucket();
+            displayMessage(MessageFormat.format("ONTAP S3 Bucket {0}를 삭제하였습니다.", ekgxmlConfiguration.getCsv().getAwss3().getBucketName()));
         } catch (Exception e) {
             displayMessage(e.getMessage());
         }

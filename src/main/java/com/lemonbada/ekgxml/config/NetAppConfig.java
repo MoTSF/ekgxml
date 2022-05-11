@@ -11,6 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Configuration
+@Deprecated
 public class NetAppConfig {
 
     @Autowired

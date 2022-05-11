@@ -12,14 +12,20 @@ ekgxml:
     path: /sample/2022
     outputPath: /sample/2022_out
     converter: standalone/csv
-  uploader:
+    awsS3:
+      endPoint: https://localhost
+      regionName: localhost
+      accessKey: accessKey
+      secretKey: secretKey
+      bucketName: testBucket
+  uploader:         # S3 (Deprecated)
     host: https://localhost
     svmUUID: svmUUID
     bucketUUID: bucketUUID
     bucketName: test
     userName: test
     password: test
-  es:               # Elasticsearch
+  es:               # Elasticsearch(Deprecated)
     bulkSize: 100
     host: 127.0.0.1
     port: 9200

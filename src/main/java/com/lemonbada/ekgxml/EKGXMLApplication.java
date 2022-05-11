@@ -44,8 +44,8 @@ public class EKGXMLApplication implements CommandLineRunner {
         CLEAN_CACHE("cleanCache", "수집기 캐시 데이터를 삭제합니다."),
         SHOW_CACHE("showCache", "수집기 캐시 상태를 보여줍니다."),
 
-        DELETE_INDEX("deleteIndex", "ES 인덱스를 삭제합니다."),
-        CREATE_INDEX("createIndex", "ES 인덱스를 생성합니다."),
+        /*DELETE_INDEX("deleteIndex", "ES 인덱스를 삭제합니다."),
+        CREATE_INDEX("createIndex", "ES 인덱스를 생성합니다."),*/
 
         DELETE_BUCKET("deleteBucket", "ES Bucket을(를) 삭제합니다."),
         CREATE_BUCKET("createBucket", "ES Bucket을(를) 생성합니다."),
@@ -102,12 +102,12 @@ public class EKGXMLApplication implements CommandLineRunner {
                     case RUN:
                         ekgxmlService.run();
                         break;
-                    case DELETE_INDEX:
+                    /*case DELETE_INDEX:
                         ekgxmlService.dropIndex();
                         break;
                     case CREATE_INDEX:
                         ekgxmlService.createIndex();
-                        break;
+                        break;*/
                     case SHOW_CACHE:
                         ekgxmlService.showCache();
                         break;

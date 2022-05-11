@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
 
-@Service
+@Deprecated
 public class NetAppService {
 
     @Autowired

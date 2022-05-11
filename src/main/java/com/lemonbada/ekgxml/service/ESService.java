@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
+@Deprecated
 public class ESService {
 
     @Autowired

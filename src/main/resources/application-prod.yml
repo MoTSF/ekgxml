@@ -7,6 +7,12 @@ ekgxml:
     path: /sample/ES_ERROR_FILE
     outputPath: /sample/ES_ERROR_FILE_out
     converter: standalone/csv.exe
+    awsS3:
+      endPoint: https://localhost
+      regionName: localhost
+      accessKey: accessKey
+      secretKey: secretKey
+      bucketName: testBucket
   uploader:
     host: https://localhost
     svmUUID: svmUUID
@@ -28,10 +34,10 @@ ekgxml:
       url: jdbc:sqlite:ekgxml.db
       driver-class-name: org.sqlite.JDBC
     external:
-      url: jdbc:sqlserver://192.168.0.22:1433;databaseName=HISDW;encrypt=true;trustServerCertificate=true
+      url: jdbc:sqlserver://172.31.119.11:1433;databaseName=HISDW;encrypt=true;trustServerCertificate=true
       driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
       username: sa
-      password: 1111
+      password: fpahsqkek
       initialSize: 0
       maxTotal: 10
       maxIdle: 10

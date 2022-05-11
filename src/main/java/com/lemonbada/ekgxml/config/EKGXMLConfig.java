@@ -36,6 +36,17 @@ public class EKGXMLConfig {
         private String path;
         private String outputPath;
         private String converter;
+
+        private AWSS3 awss3;
+        @ConfigurationProperties("awsS3")
+        @Data
+        public static class AWSS3 {
+            private String accessKey;
+            private String secretKey;
+            private String endPoint;
+            private String regionName;
+            private String bucketName;
+        }
     }
 
     @ConfigurationProperties("uploader")
