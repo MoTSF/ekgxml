@@ -49,19 +49,7 @@ public class EKGXMLConfig {
         }
     }
 
-    @ConfigurationProperties("uploader")
-    @Data
-    public static class Uploader {
-        private String host;
-        private String svmUUID;
-        private String bucketName;
-        private String bucketUUID;
-        private String userName;
-        private String password;
-    }
-
     private Collector collector;
     private ES es;
     private CSV csv;
-    private Uploader uploader;
 }

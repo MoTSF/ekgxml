@@ -1,7 +1,6 @@
 package com.lemonbada.ekgxml.service;
 
 import com.lemonbada.ekgxml.config.EKGXMLConfig;
-import com.lemonbada.ekgxml.dto.NetApp;
 import com.lemonbada.ekgxml.dto.TaskProcess;
 import com.lemonbada.ekgxml.entity.ProcessLog;
 import com.lemonbada.ekgxml.helper.XMLParser;

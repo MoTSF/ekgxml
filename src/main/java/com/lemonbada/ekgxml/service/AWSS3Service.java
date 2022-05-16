@@ -3,13 +3,8 @@ package com.lemonbada.ekgxml.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.Bucket;
 import com.lemonbada.ekgxml.config.EKGXMLConfig;
-import com.lemonbada.ekgxml.dto.NetApp;
-import com.lemonbada.ekgxml.helper.NetAppIF;
-import org.apache.http.annotation.Obsolete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.nio.file.Path;
 
 @Service
 public class AWSS3Service {
