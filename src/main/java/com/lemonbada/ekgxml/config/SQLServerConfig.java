@@ -12,24 +12,24 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.lemonbada.ekgxml.mapper.external",
-    sqlSessionTemplateRef = "externalDataSourceSessionTemplate",
-    sqlSessionFactoryRef = "externalDataSourceSessionFactory")
-public class ExternalDatabaseConfig {
+@MapperScan(basePackages = "com.lemonbada.ekgxml.mapper",
+    sqlSessionTemplateRef = "sqlServerDataSourceSessionTemplate",
+    sqlSessionFactoryRef = "sqlServerDataSourceSessionFactory")
+public class SQLServerConfig {
 
-    @Bean(name = "externalDataSource")
-    @ConfigurationProperties("ekgxml.datasource.external")
+    @Bean(name = "sqlServerDataSource")
+    @ConfigurationProperties("ekgxml.collector.datasource")
     public DataSource dataSource(){
         return new BasicDataSource();
     }
 
-    @Bean(name = "externalDataSourceSessionFactory")
+    @Bean(name = "sqlServerDataSourceSessionFactory")
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
         return sqlSessionFactoryBean.getObject();
     }
-    @Bean(name = "externalDataSourceSessionTemplate")
+    @Bean(name = "sqlServerDataSourceSessionTemplate")
     public SqlSessionTemplate sessionTemplate() throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory());
     }

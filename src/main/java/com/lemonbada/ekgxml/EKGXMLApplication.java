@@ -1,7 +1,6 @@
 package com.lemonbada.ekgxml;
 
 import com.lemonbada.ekgxml.service.EKGXMLService;
-import com.lemonbada.ekgxml.service.ESService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -29,9 +28,6 @@ public class EKGXMLApplication implements CommandLineRunner {
     private EKGXMLService ekgxmlService;
 
     @Autowired
-    private ESService esService;
-
-    @Autowired
     private ApplicationArguments applicationArguments;
 
     final String ARGUMENT_OPTION_NAME = "action";
@@ -39,16 +35,9 @@ public class EKGXMLApplication implements CommandLineRunner {
 
     enum COMMAND_TYPE {
         CHECK("check", "작업 환경을 점검합니다."),
-        RUN("run", "EKG XML 수집 및 ES 색인을 시작합니다."),
-
-        CLEAN_CACHE("cleanCache", "수집기 캐시 데이터를 삭제합니다."),
-        SHOW_CACHE("showCache", "수집기 캐시 상태를 보여줍니다."),
-
-        /*DELETE_INDEX("deleteIndex", "ES 인덱스를 삭제합니다."),
-        CREATE_INDEX("createIndex", "ES 인덱스를 생성합니다."),*/
-
-        DELETE_BUCKET("deleteBucket", "ES Bucket을(를) 삭제합니다."),
-        CREATE_BUCKET("createBucket", "ES Bucket을(를) 생성합니다."),
+        COLLECT("collect", "EKG XML 수집을 시작합니다."),
+        DELETE_BUCKET("deleteBucket", "ONTAP S3 Bucket을(를) 삭제합니다."),
+        CREATE_BUCKET("createBucket", "ONTAP S3 Bucket을(를) 생성합니다."),
 
         CSV("csv", "CSV 변환작업을 시작합니다.");
 
@@ -93,23 +82,11 @@ public class EKGXMLApplication implements CommandLineRunner {
             for (String argumentValue : argumentValues) {
                 COMMAND_TYPE commandType = COMMAND_TYPE.of(argumentValue);
                 switch (commandType) {
-                    case CLEAN_CACHE:
-                        ekgxmlService.cleanCache();
-                        break;
                     case CHECK:
                         ekgxmlService.check();
                         break;
-                    case RUN:
-                        ekgxmlService.run();
-                        break;
-                    /*case DELETE_INDEX:
-                        ekgxmlService.dropIndex();
-                        break;
-                    case CREATE_INDEX:
-                        ekgxmlService.createIndex();
-                        break;*/
-                    case SHOW_CACHE:
-                        ekgxmlService.showCache();
+                    case COLLECT:
+                        ekgxmlService.collect();
                         break;
                     case CSV:
                         ekgxmlService.csv();

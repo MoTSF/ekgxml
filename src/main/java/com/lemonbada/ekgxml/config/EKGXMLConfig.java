@@ -14,20 +14,6 @@ public class EKGXMLConfig {
     public static class Collector {
         private String path;
         private String logPath;
-        private Boolean retry;
-    }
-
-    @ConfigurationProperties("es")
-    @Data
-    public static class ES {
-        private String host;
-        private Integer port;
-        private String userName;
-        private String password;
-        private Long bulkSize;
-        private String indexName;
-        private String mappingsLocation;
-        private String settingsLocation;
     }
 
     @ConfigurationProperties("csv")
@@ -50,6 +36,5 @@ public class EKGXMLConfig {
     }
 
     private Collector collector;
-    private ES es;
     private CSV csv;
 }

@@ -2,9 +2,13 @@ package com.lemonbada.ekgxml.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.lemonbada.ekgxml.config.EKGXMLConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.nio.file.Path;
 
 @Service
 public class AWSS3Service {
@@ -24,6 +28,14 @@ public class AWSS3Service {
         return bucket.getName();
     }
 
+    public void uploadObject(Path path){
+
+        PutObjectResult putObjectResult =  amazonS3.putObject(
+                ekgxmlConfiguration.getCsv().getAwss3().getBucketName(),
+                path.toString(),
+                path.toFile()
+        );
+    }
 
 
     public void deleteBucket() {
