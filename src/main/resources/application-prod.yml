@@ -12,8 +12,8 @@ ekgxml:
       maxIdle: 10
       minIdle: 0
   csv:
-    path: /sample/ES_ERROR_FILE
-    outputPath: /sample/ES_ERROR_FILE_out
+    path: D:/ekgsample
+    outputPath: D:/ekgsample/out
     converter: standalone/csv.exe
     awsS3:
       endPoint: https://localhost

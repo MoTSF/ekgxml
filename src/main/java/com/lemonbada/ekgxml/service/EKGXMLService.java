@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -83,10 +84,12 @@ public class EKGXMLService {
 
             DefaultExecutor defaultExecutor = new DefaultExecutor();
             ExecuteWatchdog executeWatchdog = new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT);
+
             defaultExecutor.setWatchdog(executeWatchdog);
             defaultExecutor.setStreamHandler(new PumpStreamHandler(new LogOutputStream() {
                 @Override
                 protected void processLine(String line, int logLevel) {
+
                     if(!line.startsWith("[CSV]")) return;
                     line = StringUtils.replace(line,"[CSV]", "");
 
@@ -100,11 +103,9 @@ public class EKGXMLService {
                         log.info(path.toString());
                         log.info("ONTAP S3 업로드를 시작합니다.");
                         awss3Service.uploadObject(path);
-                        log.info("파일을 삭제합니다.");
                         Files.deleteIfExists(path);
-
-                    } catch (IOException e) {
-                        log.error("파일을 삭제할 수 없습니다.", e);
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
                     }
                 }
             }));
