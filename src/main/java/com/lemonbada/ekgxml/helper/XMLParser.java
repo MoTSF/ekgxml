@@ -22,7 +22,9 @@ public class XMLParser {
     public TaskProcess.ParseResult parse(File xmlFile) {
 
         TaskProcess.ParseResult resultDto =
-                TaskProcess.ParseResult.builder().success(true).build();
+                TaskProcess.ParseResult.builder()
+                        .path(xmlFile.toPath())
+                        .success(true).build();
 
         try {
 

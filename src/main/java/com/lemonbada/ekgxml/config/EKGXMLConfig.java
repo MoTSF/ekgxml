@@ -14,6 +14,7 @@ public class EKGXMLConfig {
     public static class Collector {
         private String path;
         private String logPath;
+        private String loadTableName;
     }
 
     @ConfigurationProperties("csv")

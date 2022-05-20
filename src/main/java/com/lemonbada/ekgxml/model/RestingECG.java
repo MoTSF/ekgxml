@@ -1,13 +1,17 @@
 package com.lemonbada.ekgxml.model;
 
 
+import com.lemonbada.ekgxml.dto.ESListItem;
+import com.lemonbada.ekgxml.util.Utils;
 import lombok.Data;
 
+import javax.rmi.CORBA.Util;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
+import java.text.MessageFormat;
+import java.util.*;
 
 @XmlRootElement(name = "RestingECG")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -48,7 +52,7 @@ public class RestingECG {
     private QRSTimesTypes qrsTimesTypes;
 
     @XmlElement(name = "Waveform")
-    private List<Waveform> waveforms;
+    private List<Waveform> waveform;
 
     @XmlElement(name = "PharmaData")
     private PharmaData pharmaData;
@@ -68,6 +72,18 @@ public class RestingECG {
 
         @XmlElement(name = "PharmaCartID")
         private String pharmaCartID;
+
+        @Override
+        public String toString() {
+            List<ESListItem> list = new ArrayList<>();
+
+            list.add(new ESListItem("PharmaRRinterval", pharmaRRinterval));
+            list.add(new ESListItem("PharmaUniqueECGID", pharmaUniqueECGID));
+            list.add(new ESListItem("PharmaPPinterval", pharmaPPinterval));
+            list.add(new ESListItem("PharmaCartID", pharmaCartID));
+
+            return Utils.listToESString(list);
+        }
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -153,7 +169,6 @@ public class RestingECG {
             @XmlElement(name = "WaveFormData")
             private String waveFormData;
         }
-
     }
 
 
@@ -183,6 +198,25 @@ public class RestingECG {
 
             @XmlElement(name = "Time")
             private String time;
+        }
+
+        @Override
+        public String toString() {
+            List<ESListItem> list = new ArrayList<>();
+
+            if(qrses!=null) {
+                qrses.forEach(qrs -> {
+                    list.add(new ESListItem("QRS.Number", qrs.number));
+                    list.add(new ESListItem("QRS.Type", qrs.type));
+                    list.add(new ESListItem("QRS.Time", qrs.time));
+                });
+            }
+
+            list.add(new ESListItem("GlobalRR", globalRR));
+            list.add(new ESListItem("QTRGGR", qtrggr));
+
+
+            return Utils.listToESString(list);
         }
     }
 
@@ -219,6 +253,25 @@ public class RestingECG {
             private String amplitudeMeasurementArea;
 
         }
+
+        @Override
+        public String toString() {
+            List<ESListItem> list = new ArrayList<>();
+            list.add(new ESListItem("AmplitudeMeasurementMode", amplitudeMeasurementMode));
+
+            if(measuredAmplitudes!=null) {
+                measuredAmplitudes.forEach(measuredAmplitude -> {
+                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementLeadID", measuredAmplitude.amplitudeMeasurementLeadID));
+                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementWaveID", measuredAmplitude.amplitudeMeasurementWaveID));
+                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementPeak", measuredAmplitude.amplitudeMeasurementPeak));
+                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementStart", measuredAmplitude.amplitudeMeasurementStart));
+                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementDuration", measuredAmplitude.amplitudeMeasurementDuration));
+                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementArea", measuredAmplitude.amplitudeMeasurementArea));
+                });
+            }
+
+            return Utils.listToESString(list);
+        }
     }
 
 
@@ -236,7 +289,7 @@ public class RestingECG {
         private String intervalMeasurementFilter;
 
         @XmlElement(name = "IntervalMeasurementMode")
-        private String IntervalMeasurementMode;
+        private String intervalMeasurementMode;
 
         @XmlElement(name = "IntervalMeasurementMethodType")
         private String intervalMeasurementMethodType;
@@ -282,6 +335,34 @@ public class RestingECG {
             private String intervalMeasurementTOffset;
         }
 
+        @Override
+        public String toString() {
+            List<ESListItem> list = new ArrayList<>();
+            list.add(new ESListItem("IntervalMeasurementTimeResolution", intervalMeasurementTimeResolution));
+            list.add(new ESListItem("IntervalMeasurementAmplitudeResolution", intervalMeasurementAmplitudeResolution));
+            list.add(new ESListItem("IntervalMeasurementFilter", intervalMeasurementFilter));
+            list.add(new ESListItem("IntervalMeasurementMode", intervalMeasurementMode));
+            list.add(new ESListItem("IntervalMeasurementMethodType", intervalMeasurementMethodType));
+            list.add(new ESListItem("LeadPOnsetCalculationMethod", leadPOnsetCalculationMethod));
+            list.add(new ESListItem("LeadPOffsetCalculationMethod", leadPOffsetCalculationMethod));
+            list.add(new ESListItem("LeadQOnsetCalculationMethod", leadQOnsetCalculationMethod));
+            list.add(new ESListItem("LeadQOffsetCalculationMethod", leadQOffsetCalculationMethod));
+            list.add(new ESListItem("LeadTOffsetCalculationMethod", leadTOffsetCalculationMethod));
+
+            if(measuredIntervals!=null) {
+                measuredIntervals.forEach(measuredInterval -> {
+                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementLeadID", measuredInterval.intervalMeasurementLeadID));
+                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementPOnset", measuredInterval.intervalMeasurementPOnset));
+                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementPOffset", measuredInterval.intervalMeasurementPOffset));
+                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementQOnset", measuredInterval.intervalMeasurementQOnset));
+                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementQOffset", measuredInterval.intervalMeasurementQOffset));
+                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementTOffset", measuredInterval.intervalMeasurementTOffset));
+                });
+            }
+
+            return Utils.listToESString(list);
+        }
+
 
     }
 
@@ -318,7 +399,7 @@ public class RestingECG {
         private String modality;
 
         @XmlElement(name = "DiagnosisStatement")
-        private List<DiagnosisStatement> DiagnosisStatements;
+        private List<DiagnosisStatement> diagnosisStatements;
 
         @XmlAccessorType(XmlAccessType.FIELD)
         @Data
@@ -329,6 +410,19 @@ public class RestingECG {
             @XmlElement(name = "StmtText")
             private String stmtText;
 
+        }
+        @Override
+        public String toString(){
+            List<ESListItem> list = new ArrayList<>();
+            list.add(new ESListItem("Modality", modality));
+            if(diagnosisStatements!=null) {
+                diagnosisStatements.forEach(diagnosisStatement -> {
+                    list.add(new ESListItem("DiagnosisStatement.StmtFlag", diagnosisStatement.stmtFlag));
+                    list.add(new ESListItem("DiagnosisStatement.StmtText", diagnosisStatement.stmtText));
+                });
+            }
+
+            return Utils.listToESString(list);
         }
     }
 
@@ -364,7 +458,7 @@ public class RestingECG {
         private String tAxis;
 
         @XmlElement(name = "QRSCount")
-        private String qrSCount;
+        private String qrsCount;
 
         @XmlElement(name = "QOnset")
         private String qOnset;
@@ -386,6 +480,30 @@ public class RestingECG {
 
         @XmlElement(name = "ECGSampleExponent")
         private String ecgSampleExponent;
+
+        @Override
+        public String toString(){
+            List<ESListItem> list = new ArrayList<>();
+            list.add(new ESListItem("VentricularRate", ventricularRate));
+            list.add(new ESListItem("AtrialRate", atrialRate));
+            list.add(new ESListItem("PRInterval", prInterval));
+            list.add(new ESListItem("QRSDuration", qrsDuration));
+            list.add(new ESListItem("QTInterval", qtInterval));
+            list.add(new ESListItem("QTCorrected", qtCorrected));
+            list.add(new ESListItem("PAxis", pAxis));
+            list.add(new ESListItem("RAxis", rAxis));
+            list.add(new ESListItem("TAxis", tAxis));
+            list.add(new ESListItem("QRSCount", qrsCount));
+            list.add(new ESListItem("QOnset", qOnset));
+            list.add(new ESListItem("QOffset", qOffset));
+            list.add(new ESListItem("POnset", pOnset));
+            list.add(new ESListItem("POffset", pOffset));
+            list.add(new ESListItem("TOffset", tOffset));
+            list.add(new ESListItem("ECGSampleBase", ecgSampleBase));
+            list.add(new ESListItem("ECGSampleExponent", ecgSampleExponent));
+
+            return Utils.listToESString(list);
+        }
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -419,7 +537,7 @@ public class RestingECG {
         private String tAxis;
 
         @XmlElement(name = "QRSCount")
-        private String qrSCount;
+        private String qrsCount;
 
         @XmlElement(name = "QOnset")
         private String qOnset;
@@ -445,6 +563,31 @@ public class RestingECG {
         @XmlElement(name = "QTcFrederica")
         private String qtCFrederica;
 
+
+        @Override
+        public String toString(){
+            List<ESListItem> list = new ArrayList<>();
+            list.add(new ESListItem("VentricularRate", ventricularRate));
+            list.add(new ESListItem("AtrialRate", atrialRate));
+            list.add(new ESListItem("PRInterval", prInterval));
+            list.add(new ESListItem("QRSDuration", qrsDuration));
+            list.add(new ESListItem("QTInterval", qtInterval));
+            list.add(new ESListItem("QTCorrected", qtCorrected));
+            list.add(new ESListItem("PAxis", pAxis));
+            list.add(new ESListItem("RAxis", rAxis));
+            list.add(new ESListItem("TAxis", tAxis));
+            list.add(new ESListItem("QRSCount", qrsCount));
+            list.add(new ESListItem("QOnset", qOnset));
+            list.add(new ESListItem("QOffset", qOffset));
+            list.add(new ESListItem("POnset", pOnset));
+            list.add(new ESListItem("POffset", pOffset));
+            list.add(new ESListItem("TOffset", tOffset));
+            list.add(new ESListItem("ECGSampleBase", ecgSampleBase));
+            list.add(new ESListItem("ECGSampleExponent", ecgSampleExponent));
+            list.add(new ESListItem("QTcFrederica", qtCFrederica));
+
+            return Utils.listToESString(list);
+        }
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -479,6 +622,23 @@ public class RestingECG {
 
         @XmlElement(name = "PatientFirstName")
         private String patientFirstName;
+
+        @Override
+        public String toString(){
+            List<ESListItem> list = new ArrayList<>();
+            list.add(new ESListItem("PatientID", patientID));
+            list.add(new ESListItem("PatientAge", patientAge));
+            list.add(new ESListItem("AgeUnits", ageUnits));
+            list.add(new ESListItem("DateofBirth", dateOfBirth));
+            list.add(new ESListItem("Gender", gender));
+            list.add(new ESListItem("Race", race));
+            list.add(new ESListItem("HeightIN", heightIN));
+            list.add(new ESListItem("WeightLBS", weightLBS));
+            list.add(new ESListItem("PatientLastName", patientLastName));
+            list.add(new ESListItem("PatientFirstName", patientFirstName));
+
+            return Utils.listToESString(list);
+        }
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -503,7 +663,7 @@ public class RestingECG {
         private String editListStatus;
 
         @XmlElement(name = "Priority")
-        private String Priority;
+        private String priority;
 
         @XmlElement(name = "Location")
         private String location;
@@ -536,16 +696,16 @@ public class RestingECG {
         private String editDate;
 
         @XmlElement(name = "OverreaderID")
-        private String overReaderID;
+        private String overreaderID;
 
         @XmlElement(name = "EditorID")
         private String editorID;
 
         @XmlElement(name = "OverreaderLastName")
-        private String overReaderLastName;
+        private String overreaderLastName;
 
         @XmlElement(name = "OverreaderFirstName")
-        private String overReaderFirstName;
+        private String overreaderFirstName;
 
         @XmlElement(name = "EditorLastName")
         private String editorLastName;
@@ -554,7 +714,39 @@ public class RestingECG {
         private String editorFirstName;
 
         @XmlElement(name = "HISStatus")
-        private String hissStatus;
+        private String hisStatus;
+
+
+        @Override
+        public String toString(){
+            List<ESListItem> list = new ArrayList<>();
+            list.add(new ESListItem("DataType", dataType));
+            list.add(new ESListItem("Site", site));
+            list.add(new ESListItem("SiteName", siteName));
+            list.add(new ESListItem("AcquisitionDevice", acquisitionDevice));
+            list.add(new ESListItem("Status", status));
+            list.add(new ESListItem("EditListStatus", editListStatus));
+            list.add(new ESListItem("Priority", priority));
+            list.add(new ESListItem("Location", location));
+            list.add(new ESListItem("LocationName", locationName));
+            list.add(new ESListItem("RoomID", roomID));
+            list.add(new ESListItem("AcquisitionTime", acquisitionTime));
+            list.add(new ESListItem("AcquisitionDate", acquisitionDate));
+            list.add(new ESListItem("CartNumber", cartNumber));
+            list.add(new ESListItem("AcquisitionSoftwareVersion", acquisitionSoftwareVersion));
+            list.add(new ESListItem("AnalysisSoftwareVersion", analysisSoftwareVersion));
+            list.add(new ESListItem("EditTime", editTime));
+            list.add(new ESListItem("EditDate", editDate));
+            list.add(new ESListItem("OverreaderID", overreaderID));
+            list.add(new ESListItem("EditorID", editorID));
+            list.add(new ESListItem("OverreaderLastName", overreaderLastName));
+            list.add(new ESListItem("OverreaderFirstName", overreaderFirstName));
+            list.add(new ESListItem("EditorLastName", editorLastName));
+            list.add(new ESListItem("EditorFirstName", editorFirstName));
+            list.add(new ESListItem("HISStatus", hisStatus));
+
+            return Utils.listToESString(list);
+        }
     }
 
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -562,7 +754,12 @@ public class RestingECG {
     public static class MuseInfo {
         @XmlElement(name = "MuseVersion")
         private String museVersion;
+        @Override
+        public String toString(){
+            List<ESListItem> list = new ArrayList<>();
+            list.add(new ESListItem("MuseVersion", museVersion));
+
+            return Utils.listToESString(list);
+        }
     }
-
-
 }

@@ -2,8 +2,9 @@ ekgxml:
   collector:
     path: D:/ekgsample
     logPath: ekgLog
+    loadTableName: RESTING_ECG
     datasource:
-      url: jdbc:sqlserver://172.31.119.11:1433;databaseName=HISDW;encrypt=true;trustServerCertificate=true
+      url: jdbc:sqlserver://192.168.137.180:1433;databaseName=HISDW;encrypt=true;trustServerCertificate=true
       driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
       username: sa
       password: fpahsqkek

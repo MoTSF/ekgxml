@@ -2,6 +2,7 @@ package com.lemonbada.ekgxml.service;
 
 import com.lemonbada.ekgxml.config.EKGXMLConfig;
 import com.lemonbada.ekgxml.dto.TaskProcess;
+import com.lemonbada.ekgxml.entity.RestingECG;
 import com.lemonbada.ekgxml.helper.XMLParser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.exec.*;
@@ -34,7 +35,7 @@ public class EKGXMLService {
     private AWSS3Service awss3Service;
 
     @Autowired
-    private SQLServerService externalDataBaseService;
+    private SQLServerService sqlServerService;
 
     @PostConstruct
     public void construct() throws IOException {
@@ -51,12 +52,8 @@ public class EKGXMLService {
             displayMessage("점검중입니다. 잠시만 기다리세요.");
 
             displayMessage("외부 데이터베이스 연결중입니다.");
-            externalDataBaseService.ack();
+            sqlServerService.ack();
             displayMessage("[정상] 정상정으로 연결되었습니다.");
-
-            /*displayMessage("ES 연결중입니다.");
-            esService.ack();
-            displayMessage("[정상] 정상적으로 연결되었습니다.");*/
 
             displayMessage("ONTAP S3 연결중입니다.");
             awss3Service.ack();
@@ -123,6 +120,8 @@ public class EKGXMLService {
 
     public void collect() {
 
+        sqlServerService.createTableIfNotExists(ekgxmlConfiguration.getCollector().getLoadTableName());
+
         try (Stream<Path> stream = Files.find(Paths.get(ekgxmlConfiguration.getCollector().getPath()),
                 Integer.MAX_VALUE,
                 (path, attr) -> attr.isRegularFile() && FilenameUtils.isExtension(path.toString(), "xml", "XML"))) {
@@ -143,19 +142,16 @@ public class EKGXMLService {
             try {
                 TaskProcess.ParseResult parseResult = xmlParser.parse(file);
 
-                if (parseResult.getSuccess()) {
-
-
-                    // parseResult.getRestingECG();
-
-                } else {
+                if (!parseResult.getSuccess()) {
                     log.error(MessageFormat.format("[파싱오류] File = {0}, Message = {1}", file.getAbsolutePath(), parseResult.getErrorMessage()));
+                    return;
                 }
 
-                // SQL
-
+                RestingECG restingECG = RestingECG.of(parseResult);
+                sqlServerService.save(restingECG);
 
             }catch (Exception e){
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         });
