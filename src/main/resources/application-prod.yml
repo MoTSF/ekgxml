@@ -4,7 +4,7 @@ ekgxml:
     logPath: ekgLog
     loadTableName: RESTING_ECG
     datasource:
-      url: jdbc:sqlserver://192.168.137.180:1433;databaseName=HISDW;encrypt=true;trustServerCertificate=true
+      url: jdbc:sqlserver://192.168.137.73:1433;databaseName=HISDW;encrypt=true;trustServerCertificate=true
       driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
       username: sa
       password: fpahsqkek

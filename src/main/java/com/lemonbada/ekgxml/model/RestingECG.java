@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.IntStream;
 
 @XmlRootElement(name = "RestingECG")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -205,10 +206,10 @@ public class RestingECG {
             List<ESListItem> list = new ArrayList<>();
 
             if(qrses!=null) {
-                qrses.forEach(qrs -> {
-                    list.add(new ESListItem("QRS.Number", qrs.number));
-                    list.add(new ESListItem("QRS.Type", qrs.type));
-                    list.add(new ESListItem("QRS.Time", qrs.time));
+                IntStream.range(0, qrses.size()).forEach(index -> {
+                    list.add(new ESListItem(MessageFormat.format("QRS.Number.{0}", index), qrses.get(index).number));
+                    list.add(new ESListItem(MessageFormat.format("QRS.Type.{0}", index), qrses.get(index).type));
+                    list.add(new ESListItem(MessageFormat.format("QRS.Time.{0}", index), qrses.get(index).time));
                 });
             }
 
@@ -260,13 +261,13 @@ public class RestingECG {
             list.add(new ESListItem("AmplitudeMeasurementMode", amplitudeMeasurementMode));
 
             if(measuredAmplitudes!=null) {
-                measuredAmplitudes.forEach(measuredAmplitude -> {
-                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementLeadID", measuredAmplitude.amplitudeMeasurementLeadID));
-                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementWaveID", measuredAmplitude.amplitudeMeasurementWaveID));
-                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementPeak", measuredAmplitude.amplitudeMeasurementPeak));
-                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementStart", measuredAmplitude.amplitudeMeasurementStart));
-                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementDuration", measuredAmplitude.amplitudeMeasurementDuration));
-                    list.add(new ESListItem("MeasuredAmplitude.AmplitudeMeasurementArea", measuredAmplitude.amplitudeMeasurementArea));
+                IntStream.range(0, measuredAmplitudes.size()).forEach(index -> {
+                    list.add(new ESListItem(MessageFormat.format("MeasuredAmplitude.AmplitudeMeasurementLeadID.{0}", index), measuredAmplitudes.get(index).amplitudeMeasurementLeadID));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredAmplitude.AmplitudeMeasurementWaveID.{0}", index), measuredAmplitudes.get(index).amplitudeMeasurementWaveID));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredAmplitude.AmplitudeMeasurementPeak.{0}", index), measuredAmplitudes.get(index).amplitudeMeasurementPeak));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredAmplitude.AmplitudeMeasurementStart.{0}", index), measuredAmplitudes.get(index).amplitudeMeasurementStart));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredAmplitude.AmplitudeMeasurementDuration.{0}", index), measuredAmplitudes.get(index).amplitudeMeasurementDuration));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredAmplitude.AmplitudeMeasurementArea.{0}", index), measuredAmplitudes.get(index).amplitudeMeasurementArea));
                 });
             }
 
@@ -350,13 +351,13 @@ public class RestingECG {
             list.add(new ESListItem("LeadTOffsetCalculationMethod", leadTOffsetCalculationMethod));
 
             if(measuredIntervals!=null) {
-                measuredIntervals.forEach(measuredInterval -> {
-                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementLeadID", measuredInterval.intervalMeasurementLeadID));
-                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementPOnset", measuredInterval.intervalMeasurementPOnset));
-                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementPOffset", measuredInterval.intervalMeasurementPOffset));
-                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementQOnset", measuredInterval.intervalMeasurementQOnset));
-                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementQOffset", measuredInterval.intervalMeasurementQOffset));
-                    list.add(new ESListItem("MeasuredInterval.IntervalMeasurementTOffset", measuredInterval.intervalMeasurementTOffset));
+                IntStream.range(0, measuredIntervals.size()).forEach(index -> {
+                    list.add(new ESListItem(MessageFormat.format("MeasuredInterval.IntervalMeasurementLeadID.{0}", index), measuredIntervals.get(index).intervalMeasurementLeadID));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredInterval.IntervalMeasurementPOnset.{0}", index), measuredIntervals.get(index).intervalMeasurementPOnset));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredInterval.IntervalMeasurementPOffset.{0}", index), measuredIntervals.get(index).intervalMeasurementPOffset));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredInterval.IntervalMeasurementQOnset.{0}", index), measuredIntervals.get(index).intervalMeasurementQOnset));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredInterval.IntervalMeasurementQOffset.{0}", index), measuredIntervals.get(index).intervalMeasurementQOffset));
+                    list.add(new ESListItem(MessageFormat.format("MeasuredInterval.IntervalMeasurementTOffset.{0}", index), measuredIntervals.get(index).intervalMeasurementTOffset));
                 });
             }
 
@@ -416,9 +417,9 @@ public class RestingECG {
             List<ESListItem> list = new ArrayList<>();
             list.add(new ESListItem("Modality", modality));
             if(diagnosisStatements!=null) {
-                diagnosisStatements.forEach(diagnosisStatement -> {
-                    list.add(new ESListItem("DiagnosisStatement.StmtFlag", diagnosisStatement.stmtFlag));
-                    list.add(new ESListItem("DiagnosisStatement.StmtText", diagnosisStatement.stmtText));
+                IntStream.range(0, diagnosisStatements.size()).forEach(index -> {
+                    list.add(new ESListItem(MessageFormat.format("DiagnosisStatement.StmtFlag.{0}", index), diagnosisStatements.get(index).stmtFlag));
+                    list.add(new ESListItem(MessageFormat.format("DiagnosisStatement.StmtText.{0}", index), diagnosisStatements.get(index).stmtText));
                 });
             }
 
