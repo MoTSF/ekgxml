@@ -1,10 +1,10 @@
-package com.lemonbada.ekgxml.mapper;
+package com.lemonbada.ekgxml.mapper.destination;
 
 import com.lemonbada.ekgxml.entity.RestingECG;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
-public interface SQLServerMapper {
+public interface DestinationMapper {
     @Select("select 'ack' ack")
     String check();
 
@@ -16,6 +16,7 @@ public interface SQLServerMapper {
             " id int IDENTITY(0,1) NOT NULL, " +
             " Year varchar(4) COLLATE Korean_Wansung_CI_AS NULL, " +
             " FileName varchar(200) COLLATE Korean_Wansung_CI_AS NULL, " +
+            " AlsPatientId varchar(50) COLLATE Korean_Wansung_CI_AS NULL," +
             " MuseInfo varchar(MAX) COLLATE Korean_Wansung_CI_AS NULL, " +
             " PatientDemographics varchar(MAX) COLLATE Korean_Wansung_CI_AS NULL, " +
             " TestDemographics varchar(MAX) COLLATE Korean_Wansung_CI_AS NULL, " +
@@ -35,6 +36,7 @@ public interface SQLServerMapper {
     @Insert("INSERT INTO ${tableName} " +
             "(  [Year], " +
             "   FileName, " +
+            "   AlsPatientId, " +
             "   MuseInfo, " +
             "   PatientDemographics, " +
             "   TestDemographics, " +
@@ -50,6 +52,7 @@ public interface SQLServerMapper {
             "VALUES(" +
             "   #{restingECG.year}, " +
             "   #{restingECG.fileName}, " +
+            "   #{restingECG.AlsPatientId}, " +
             "   #{restingECG.museInfo}, " +
             "   #{restingECG.patientDemographics}, " +
             "   #{restingECG.testDemographics}, " +

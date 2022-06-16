@@ -17,6 +17,9 @@ import java.util.Objects;
 public class RestingECG {
     private String year;
     private String fileName;
+
+    private String patientId;
+    private String AlsPatientId;
     private String museInfo;
     private String patientDemographics;
     private String testDemographics;
@@ -37,10 +40,16 @@ public class RestingECG {
 
         com.lemonbada.ekgxml.model.RestingECG model = parseResult.getRestingECG();
 
+
+
         restingECG.museInfo = ObjectUtils.defaultIfNull(model.getMuseInfo(), "").toString();
 
         restingECG.patientDemographics = ObjectUtils.defaultIfNull(model.getPatientDemographics(), "").toString();
         restingECG.testDemographics = ObjectUtils.defaultIfNull(model.getTestDemographics(), "").toString();
+
+        if(StringUtils.isNotBlank(restingECG.patientDemographics)){
+            restingECG.patientId = model.getPatientDemographics().getPatientID();
+        }
 
         restingECG.restingECGMeasurements = ObjectUtils.defaultIfNull(model.getRestingECGMeasurements(), "").toString();
         restingECG.originalRestingECGMeasurements = ObjectUtils.defaultIfNull(model.getOriginalRestingECGMeasurements(), "").toString();

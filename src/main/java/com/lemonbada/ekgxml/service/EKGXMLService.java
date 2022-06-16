@@ -7,6 +7,7 @@ import com.lemonbada.ekgxml.helper.XMLParser;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.exec.*;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,7 +35,7 @@ public class EKGXMLService {
     private AWSS3Service awss3Service;
 
     @Autowired
-    private SQLServerService sqlServerService;
+    private DatabaseService databaseService;
 
     @PostConstruct
     public void construct() throws IOException {
@@ -52,7 +52,7 @@ public class EKGXMLService {
             displayMessage("점검중입니다. 잠시만 기다리세요.");
 
             displayMessage("외부 데이터베이스 연결중입니다.");
-            sqlServerService.ack();
+            databaseService.ack();
             displayMessage("[정상] 정상정으로 연결되었습니다.");
 
             displayMessage("ONTAP S3 연결중입니다.");
@@ -120,7 +120,7 @@ public class EKGXMLService {
 
     public void collect() {
 
-        sqlServerService.createTableIfNotExists(ekgxmlConfiguration.getCollector().getLoadTableName());
+        databaseService.createTableIfNotExists(ekgxmlConfiguration.getCollector().getLoadTableName());
 
         try (Stream<Path> stream = Files.find(Paths.get(ekgxmlConfiguration.getCollector().getPath()),
                 Integer.MAX_VALUE,
@@ -148,7 +148,13 @@ public class EKGXMLService {
                 }
 
                 RestingECG restingECG = RestingECG.of(parseResult);
-                sqlServerService.save(restingECG);
+
+                if(StringUtils.isNotBlank(restingECG.getPatientId())){
+                    restingECG.setAlsPatientId(databaseService.convert(restingECG.getPatientId()));
+                }
+
+
+                databaseService.save(restingECG);
 
             }catch (Exception e){
                 e.printStackTrace();
