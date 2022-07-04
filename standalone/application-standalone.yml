@@ -3,30 +3,24 @@ spring:
   profiles:
     active: prod
 
-ekgxml:
+ekgxml:datasource:
+  destination: # destination
+    url: jdbc:sqlserver://192.168.137.73:1433;databaseName=HISDW2;encrypt=true;trustServerCertificate=true
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: fpahsqkek
+    maximum-pool-size: 10
+  transformation: # transformation
+    url: jdbc:sqlserver://192.168.137.73:1433;databaseName=HISDW;encrypt=true;trustServerCertificate=true
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: fpahsqkek
+    maximum-pool-size: 10
   collector:        # Collector
     path: D:/ekgsample
     logPath: ekgLog
     loadTableName: RESTING_ECG
-    datasource:
-      destination: # destination
-        url: jdbc:sqlserver://192.168.0.22:1433;databaseName=HISDW2;encrypt=true;trustServerCertificate=true
-        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-        username: sa
-        password: 1111
-        initialSize: 0
-        maxTotal: 10
-        maxIdle: 10
-        minIdle: 0
-      transformation:  # transformation
-        url: jdbc:sqlserver://192.168.0.22:1433;databaseName=HISDW;encrypt=true;trustServerCertificate=true
-        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-        username: sa
-        password: 1111
-        initialSize: 0
-        maxTotal: 10
-        maxIdle: 10
-        minIdle: 0
+
   csv:              # CSV
     path: D:/ekgsample
     outputPath: D:/ekgsample/out
